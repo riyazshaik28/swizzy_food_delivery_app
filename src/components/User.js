@@ -1,6 +1,8 @@
 
 const UserCart = (props) => {
   const {name,location}=props;
+  ;
+
   return (
     <div className="user-cart">
       <h2> NAME: {name}</h2>
