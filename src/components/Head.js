@@ -17,7 +17,7 @@ const Head = () => {
          <img id="logo" src={CDN_LOGO}></img>
         </div>
         <div className="navitems">
-          <ul>
+          <ul id="list">
             <li id="home"><Link to="/body" >&#x1F3E0;HOME</Link></li>
             <li id="about"><Link to="/about">&#x1F465;ABOUTUS</Link> </li>
             <li id="cart"><Link to="/cart">&#x1F6D2;CART</Link></li>

@@ -1,28 +1,15 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Shi from "./shimmer";
-import { CDN_FOIN, CDN_INFO } from "./utils/constant";
+import useRestaurantMenu from "./utils/useRestaurantMenu";
 
 const RestaurantMenu=()=>{
 
 
 const {resId}=useParams();
 
-     const [resInfo, setresInfo]=useState(null);
-    useEffect(()=>{
-        fetchdata();
-    },[]
-    );
-    
-        const fetchdata=async ()=>{
-            const data= await fetch(CDN_INFO + resId + CDN_FOIN );
+const resInfo = useRestaurantMenu(resId);
 
-           const json=await data.json();
-           console.log("fdghuiuytfdvbnjkjhgfc");
-           console.log(json);
-           
-           setresInfo(json.data);
-        };
+   
 
      if (resInfo ===null){
 
@@ -48,7 +35,7 @@ const {resId}=useParams();
             <ul>
              {itemCards.map((item) => (
                 <li key= {item.card.info.id}>
-                    {item.card.info.name} :    Rs   {item.card.info.price/100||item.card.info.defaultPrice/100}
+                    {item.card.info.name} : Rs{item.card.info.price/100||item.card.info.defaultPrice/100}
                     </li>
                 ))}
             </ul>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rest from "./RestaurantCart";
 import Shi from "./shimmer";
+import useOnlineStatus from "./utils/useonlinestatus";
 const Body = ()=>{
 
 
@@ -24,6 +25,12 @@ const Body = ()=>{
    setListOfRestaurant(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
   setfilter(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
    }
+
+  const onlineStatus = useOnlineStatus();
+  if(onlineStatus === false){
+    return (<img src="https://forum.crowland.ro/uploads/monthly_2021_07/68b31495702d4b1947882ae602d4d2f1.gif.c9139a991f1e10fdd0a5f233e79e0c50.gif" alt="ghjknb"></img>);
+  }
+   
    if( filterr.length=== 0){
    return <Shi />;
    }

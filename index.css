@@ -153,3 +153,7 @@ padding-top:5px;
     width:100px;
     border: 2px solid black;
 }
+li a{
+text-decoration: none;
+font-weight: 900px;;
+}
