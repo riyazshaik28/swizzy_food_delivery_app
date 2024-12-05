@@ -138,7 +138,7 @@ padding-top:5px;
 
 .user-cart{
 
-    padding:10px;
+    padding:0px;
     
     border: 2px solid black;
     
@@ -156,4 +156,13 @@ padding-top:5px;
 li a{
 text-decoration: none;
 font-weight: 900px;;
+}
+.status{
+
+}
+#marti{
+    height: 50px;
+    width: 200px;
+    border: 2px solid black;
+    
 }
