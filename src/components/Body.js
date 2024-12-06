@@ -37,13 +37,13 @@ const Body = ()=>{
 
 
     return(<div className="body">
-      <div className="filter">
+      <div className="flex mt-[15px]">
         <div className="searchtext">
-          <input type="text"className="textbox" value={text} onChange={(e)=>{
+          <input type="text" placeholder="search here" value={text} onChange={(e)=>{
             settext(e.target.value);
-          }}></input>
+          }} className=" mx-3 p-1 border border-solid border-black bg-gray-200 text-center"></input>
 
-          <button className="searbtn" 
+          <button className="py-1 px-3   ml-6  bg-transparent border  border-solid border-black bg-gray-200 text-center rounded-md" 
           onClick={()=>{
            filterListOfRestaurant=listOfRestaurant.filter((res)=>
           res.info.name.toLowerCase().includes(text.toLowerCase()));
@@ -52,21 +52,21 @@ const Body = ()=>{
           }}> search</button>
         </div> 
       
-        <button className="Button" onClick={()=>{
+        <button className="mx-14  ml-20 p-1 px-2 bg-gray-200 border border-solid border-black rounded-md" onClick={()=>{
          filterListOfRestaurant=listOfRestaurant.filter((res)=>
             res.info.avgRating>=4.4);
           setfilter(filterListOfRestaurant);
 
         }} >Top rated Restaurant</button>
 
-<button className="Button1" onClick={()=>{
+<button className="mx-7 p-1 px-2 bg-gray-200 border border-solid border-black rounded-md" onClick={()=>{
          filterListOfRestaurant=listOfRestaurant.filter((res1)=>
           res1.info.sla.deliveryTime<=30);
           setfilter(filterListOfRestaurant);
 
         }} >FAST DELIVERY</button> 
         </div>
-      <div className="rest-container">
+      <div className=" flex flex-wrap"> 
      
         {
           filterr.map((rest)=>

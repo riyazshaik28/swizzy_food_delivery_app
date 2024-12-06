@@ -12,7 +12,7 @@ const Head = () => {
 
 
   return (
-    <div className="header">
+    <div className="bg-black">
         <div className="logo container">
          <img id="logo" src={CDN_LOGO}></img>
         </div>
