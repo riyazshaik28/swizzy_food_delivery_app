@@ -17,4 +17,18 @@ const Rest=(props)=>{
       </div>
     </div>)
   }
+
+  //HIGER OREDR COMPONENT
+
+  export const Higherorderfx = (Rest) => {
+    return (props) => {
+      return (
+        <div>
+          <label className =" absolute  bg-black font-bold text-white ml-2  border border-dashed border-white rounded-lg " >promoted</label>
+          <Rest {...props} />
+        </div>
+      );
+    };
+  };
+  
   export default Rest;
