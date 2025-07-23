@@ -1,14 +1,21 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import RestaurantCategories from "./RestaurantCategories";
 import Shi from "./shimmer";
 import useRestaurantMenu from "./utils/useRestaurantMenu";
 
+
+
+
 const RestaurantMenu=()=>{
 
+  const [showIndex,setShowIndex] = useState(0);
 
 const {resId}=useParams();
 
 const resInfo = useRestaurantMenu(resId);
+
+
 
    
 
@@ -46,12 +53,16 @@ const resInfo = useRestaurantMenu(resId);
             <h1 className="lowercase"> {resInfo?.cards[2]?.card.card.info.sla.slaString}</h1>
             <h1 className=""> {resInfo?.cards[2]?.card.card.info.sla.lastMileTravelString}</h1>
             
-          
+           {/* /* <h1 className="">user: {userLogin}</h1>* */}
             </div>
                 {/*  categories of accordions  */}
                 <div className="text-center justify-center mt-10 ">
-              {categories.map((category) => (
-             <RestaurantCategories  data={category?.card?.card} />
+              {categories.map((category,index) => (
+             <RestaurantCategories  
+              key = {category?. card?.card.title} 
+              data={category?.card?.card}
+              showItems={index === showIndex ? true : false}
+              setShowIndex ={ () => setShowIndex(index)} />
               ))};
                </div>
 

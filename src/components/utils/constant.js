@@ -9,4 +9,4 @@
 
  export const CDN_FOIN="&catalog_qa=undefined&submitAction=ENTER";
 
- 
+ export  const CDN_BRIYANI="https://th.bing.com/th/id/OIP.vXxRBDUn6oKUYCuwVti0ggHaE8?w=290&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7";

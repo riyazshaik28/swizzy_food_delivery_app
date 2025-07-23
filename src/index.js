@@ -1,48 +1,49 @@
-
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-//import About from "./components/about";About component is bundled using lazy loading in dist folder
+
+import { Provider } from "react-redux";
 import Body from "./components/Body";
-import Cart from "./components/cart";
+import Cart from "./components/Cart";
 import ContactUs from "./components/contactus";
 import Error from "./components/error";
 import Head from "./components/Head";
 import Login from "./components/login";
-//import Mart from "./components/Mart"; mart component is bundled using lazy loading in dist folder
-
 import RestaurantMenu from "./components/RestaurantMenu";
+import appStore from "./components/utils/appStore";
+import { UserContext } from "./components/utils/usercontext";
 
-/*LAZY LOADING FOR OPTIMAZING THE APP
--code splitting
--chunking
--dynamic bundling
--ondemand bundling
--lazy loading
-*/
-const Mart= lazy(()=>  import("./components/Mart"));
-
-//<im src="https://media.giphy.com/media/1XnToWGb5tj8Y/giphy.gif"/>
-
-
-const About=lazy(()=> import("./components/about"));
-
-
+// Lazy-loaded components
+const Mart = lazy(() => import("./components/Mart"));
+const About = lazy(() => import("./components/about"));
 
 const App = () => {
+  const [userName, setuserName] = useState();
+
+  useEffect(() => {
+    const data = {
+      name: "RIYAZ", 
+    };
+    setuserName(data.name);
+  }, []);
+
   return (
-    <div className="app">
-    <Head />
-     <Outlet />
-    </div>
+    // wrap whole app in reduxStore
+    <Provider store={appStore}  >
+    <UserContext.Provider value={{ logginuser: userName, setuserName }}>
+       
+      <div className="app">
+      <UserContext.Provider value={{ logginuser: "H-RIYAZ" }}>
+        <Head />
+        </UserContext.Provider>
+        <Outlet />
+      </div>
+
+    </UserContext.Provider>
+
+</Provider>
   );
 };
-
-
-
-
-
-
 
 const AppRouter = createBrowserRouter([
   {
@@ -55,37 +56,48 @@ const AppRouter = createBrowserRouter([
         element: <Body />,
       },
       {
-        path: "/cart",
-        element: <Cart />,
-      },
-      
-      {
         path: "/about",
-        element:(<Suspense fallback={<h1> about apge is loading...</h1>} ><About/></Suspense>)
+        element: (
+          <Suspense fallback={<h1>About page is loading...</h1>}>
+            <About />
+          </Suspense>
+        ),
       },
       {
-        path: "/contact", // changed to "/contact" for better readability and convention
+        path: "/contact",
         element: <ContactUs />,
       },
       {
-        path: "/body", // "/body" is already a child path of "/"
+        path: "/body",
         element: <Body />,
       },
       {
-         path:"/login",
-         element:<Login />,
+        path: "/login",
+        element: <Login />,
       },
       {
-        path:"/mart",
-        element:<Suspense fallback={<im src="https://media.giphy.com/media/1XnToWGb5tj8Y/giphy.gif"/>} ><Mart /> </Suspense>
+        path: "/mart",
+        element: (
+          <Suspense
+            fallback={
+              <img src="https://media.giphy.com/media/1XnToWGb5tj8Y/giphy.gif" alt="Loading..." />
+            }
+          >
+            <Mart />
+          </Suspense>
+        ),
       },
       {
-        path: "/restmenu/:resId", // It's fine to have dynamic params like this
+        path: "/restmenu/:resId",
         element: <RestaurantMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("riyaz"));
-root.render(<RouterProvider router={AppRouter}/>);
+root.render(<RouterProvider router={AppRouter} />);

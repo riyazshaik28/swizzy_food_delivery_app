@@ -1,9 +1,11 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rest, { Higherorderfx } from "./RestaurantCart";
 import Shi from "./shimmer";
 import useOnlineStatus from "./utils/useonlinestatus";
+import { UserContext } from "./utils/usercontext";
+
 const Body = ()=>{
 
 
@@ -37,6 +39,8 @@ const Body = ()=>{
    
    const RestaurantPromoted = Higherorderfx(Rest);
 
+   const {setuserName,logginuser}=useContext(UserContext);
+
     return( <><div className="body bg-stone-200">
       <div className="flex mt-[15px]">
         <div className="searchtext">
@@ -66,6 +70,16 @@ const Body = ()=>{
           setfilter(filterListOfRestaurant);
 
         }} >FAST DELIVERY</button> 
+         <label  className="pt-2 pr-5">User Name</label>
+          <input
+            id="username"
+            type="text"
+            placeholder="Enter username"
+            value={logginuser}
+            onChange={(e)=>setuserName(e.target.value)}
+            className="p-1 border border-solid border-black bg-zinc-100 text-center rounded-md"
+          />
+
         </div>
       <div className=" flex flex-wrap py-[25px] "> 
      

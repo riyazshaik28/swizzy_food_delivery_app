@@ -1,6 +1,10 @@
-
+import { useContext } from "react";
 import { CDN_REST } from "./utils/constant";
+import { UserContext } from "./utils/usercontext";
 const Rest=(props)=>{
+
+  const { logginuser } = useContext(UserContext);
+
     const {resData}=props;
     return(<div className="py-[7px] px-[8px] mx-1 w-[228px] border border-dotted border-black bg-sky-50 rounded-md text-left overflow-hidden text-ellipsis whitespace-nowrap " >
       <div className="diimage">
@@ -12,7 +16,7 @@ const Rest=(props)=>{
         <h3 >{resData.info.cuisines.join(',')}</h3>
   
         <h3 >{resData.info.costForTwo}</h3>
-       
+        <h3 >👤:{logginuser}</h3>
       </div>
       </div>
     </div>)

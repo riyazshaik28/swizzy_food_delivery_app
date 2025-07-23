@@ -1,80 +1,52 @@
-import React, { useState } from 'react';
+import { FaShoppingCart, FaTrashAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import ItemList from "./ItemList";
+import { clearCart } from "./utils/cartSlice";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Biryani 🍛', price: 345, quantity: 2 },
-    { id: 2, name: 'Tandoori Roti 🍞', price: 50, quantity: 1 },
-    { id: 3, name: 'Pizza 🍕', price: 120, quantity: 1 },
-  ]);
+  const dispatch = useDispatch();
 
-  const handleQuantityChange = (id, newQuantity) => {
-    const updatedCartItems = cartItems.map(item => {
-      if (item.id === id) {
-        item.quantity = newQuantity;
-      }
-      return item;
-    });
+  const cartItems = useSelector((store) => store.cart?.items || []);
 
-    setCartItems(updatedCartItems);
-  };
-
-  // Calculate total price
-  const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const handleClearCart = () => {
+    dispatch(clearCart());
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 p-6">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Your Cart 🛒</h2>
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-8 transition-transform transform hover:scale-[1.01] duration-200 ease-in-out">
+        <h1 className="text-4xl font-extrabold text-blue-900 mb-8 text-center flex items-center justify-center gap-3">
+          <FaShoppingCart className="text-blue-600 animate-bounce" />
+          Your Shopping Cart
+        </h1>
 
-      
-        <div className="space-y-6">
-          {cartItems.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center justify-between p-4 bg-yellow-100 rounded-lg shadow-md hover:scale-105 transition transform"
-            >
-              <div className="flex items-center space-x-4">
-               
-                <div className="text-lg font-medium text-gray-800">{item.name}</div>
-                <div className="text-gray-500">(₹{item.price.toFixed(2)})</div>
-              </div>
-
-              <div className="flex items-center space-x-4">
-            
-                <button
-                  onClick={() =>
-                    handleQuantityChange(item.id, Math.max(1, item.quantity - 1))
-                  }
-                  className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition"
-                >
-                  -
-                </button>
-               
-                <div>{item.quantity}</div>
-         
-                <button
-                  onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                  className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition"
-                >
-                  +
-                </button>
-              </div>
+        {cartItems.length > 0 ? (
+          <div className="space-y-6">
+            <div>
+              <ItemList items={cartItems} />
             </div>
-          ))}
-        </div>
 
-        <div className="mt-6 flex justify-between text-xl font-semibold text-gray-800">
-          <span>Total:</span>
-          <span>₹{calculateTotal().toFixed(2)}</span>
-        </div>
+            <div className="mt-6 flex flex-col sm:flex-row justify-between items-center border-t pt-6 gap-4">
+              <span className="text-lg font-medium text-gray-700">
+                🧾 Total Items:{" "}
+                <span className="font-bold text-blue-800">{cartItems.length}</span>
+              </span>
 
-        <div className="mt-6">
-          <button className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition">
-            Proceed to Payment 💳
-          </button>
-        </div>
+              <button
+                onClick={handleClearCart}
+                className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 transition-colors text-white px-6 py-2 rounded-full shadow-lg font-semibold"
+              >
+                <FaTrashAlt />
+                Clear Cart
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-16 text-gray-500 text-xl animate-pulse">
+            Your cart is currently empty 🛍️<br />
+            <span className="text-sm mt-2 block">Start adding items to see them here.</span>
+          </div>
+        )}
       </div>
     </div>
   );
