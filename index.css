@@ -138,8 +138,31 @@ padding-top:5px;
 
 .user-cart{
 
-    padding:10px;
+    padding:0px;
     
+    border: 2px solid black;
+    
+}
+.pic {
+    height: 100px;
+    width:100px;
+    border: 2px solid black;
+}
+.pic1 {
+    height: 100px;
+    width:100px;
+    border: 2px solid black;
+}
+li a{
+text-decoration: none;
+font-weight: 900px;;
+}
+.status{
+
+}
+#marti{
+    height: 50px;
+    width: 200px;
     border: 2px solid black;
     
 }
