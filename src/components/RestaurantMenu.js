@@ -1,60 +1,72 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import RestaurantCategories from "./RestaurantCategories";
 import Shi from "./shimmer";
-import { CDN_FOIN, CDN_INFO } from "./utils/constant";
+import useRestaurantMenu from "./utils/useRestaurantMenu";
+
+
+
 
 const RestaurantMenu=()=>{
 
+  const [showIndex,setShowIndex] = useState(0);
 
 const {resId}=useParams();
 
-     const [resInfo, setresInfo]=useState(null);
-    useEffect(()=>{
-        fetchdata();
-    },[]
-    );
-    
-        const fetchdata=async ()=>{
-            const data= await fetch(CDN_INFO + resId + CDN_FOIN );
+const resInfo = useRestaurantMenu(resId);
 
-           const json=await data.json();
-           console.log("fdghuiuytfdvbnjkjhgfc");
-           console.log(json);
-           
-           setresInfo(json.data);
-        };
+
+
+   
 
      if (resInfo ===null){
 
         return(<Shi/>);
      }
+     
+     const{itemCards}= 
+     resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
 
-     const{itemCards}= resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
+    
+     const categories =
+    resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.["card"]?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    ); 
 
-     console.log(itemCards);
-
+     
     return(
-       
-        <div> 
-            <h1>NAME OF THE RESTAURANTS</h1>
-          <h2>{resInfo?.cards[2]?.card?.card?.info?.name|| <h2> the restarunt name is not found</h2>}</h2>
-            <h1>cuisines</h1>
+       <>
+      <h2 className=" text-center justify-center font-bold text-2xl pt-4 mt-[15px]" >
+  {resInfo?.cards[2]?.card?.card?.info?.name || 'The restaurant name is not found'}
+</h2>
+        <div className= " text-start justify-center   shadow-2xl  border-[10px] border-t-0 rounded-3xl w-7/12 m-auto mt-[10px]  "> 
 
-            <h1>{resInfo?.cards[2]?.card?.card?.info?.cuisines?.join(',')}</h1>
+ 
+          <h2 className="font-bold"> &#11088;{resInfo?.cards[2]?.card.card.info.avgRating} ({resInfo?.cards[2]?.card.card.info.totalRatingsString} )-  {resInfo?.cards[2]?.card.card.info.costForTwoMessage}</h2>
+          
+            <h1 className="underline text-red-500"> {resInfo?.cards[2]?.card?.card?.info?.cuisines?.join(',')} </h1>
 
-            <h1>MENU</h1>
+            <h1 className="lowercase"> {resInfo?.cards[2]?.card.card.info.areaName}</h1>
+
+            <h1 className="lowercase"> {resInfo?.cards[2]?.card.card.info.sla.slaString}</h1>
+            <h1 className=""> {resInfo?.cards[2]?.card.card.info.sla.lastMileTravelString}</h1>
             
-               <h2>
-            <ul>
-             {itemCards.map((item) => (
-                <li key= {item.card.info.id}>
-                    {item.card.info.name} :    Rs   {item.card.info.price/100||item.card.info.defaultPrice/100}
-                    </li>
-                ))}
-            </ul>
-            </h2>
-            <h1>avgRating:{resInfo?.cards[2]?.card.card.info.avgRating}</h1>
+           {/* /* <h1 className="">user: {userLogin}</h1>* */}
             </div>
+                {/*  categories of accordions  */}
+                <div className="text-center justify-center mt-10 ">
+              {categories.map((category,index) => (
+             <RestaurantCategories  
+              key = {category?. card?.card.title} 
+              data={category?.card?.card}
+              showItems={index === showIndex ? true : false}
+              setShowIndex ={ () => setShowIndex(index)} />
+              ))};
+               </div>
+
+            </>
     );
 }
 export default RestaurantMenu;
